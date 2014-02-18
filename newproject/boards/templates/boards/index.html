@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  	<meta charset="utf-8">
+  	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<title>Boards - {{ board.slug }}</title>
+
+  	<!-- Bootstrap -->
+  	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+  	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  	<!--[if lt IE 9]>
+  		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  	  	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  	<![endif]-->
+</head>
+<body>
+	<nav class"navbar navbar-default" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="{% url 'boards:index' %}">Boards</a>
+			</div>
+		</div>
+	</nav>
+	<div class="container">	
+		{% for post in latest_posts %}
+		<div class="row">
+      		<div class="media">
+        		<div class="media-body">
+					<a href="{{ post.url }}"><h4 class="media-heading">{{ post.title }}</h4></a>
+					<div class="media-object">
+						<a href="{% url 'boards:post_vote' board_slug=post.board.slug post_id=post.pk direction='up'%}" class="glyphicon glyphicon-chevron-up"></a>
+						<span class="badge">{{post.count_votes }}</span>
+						<a href="{% url 'boards:post_vote' board_slug=post.board.slug post_id=post.pk direction='down'%}" class="glyphicon glyphicon-chevron-down"></a>
+					</div>	
+					Posted By: {{ post.user.username }} on {{ post.date_time|date:"l F d Y" }} at {{ post.date_time|time:"P" }} on <a href="{% url 'boards:board' post.board.slug %}">{{ post.board.slug }}</a><br/>
+		  			<a href="{% url 'boards:post' board_slug=post.board.slug post_id=post.pk %}">Comments</a>
+
+        		</div>
+      		</div>	
+		</div>
+		{% endfor %}
+   	</div>
+
+  	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  	<!-- Include all compiled plugins (below), or include individual files as needed -->
+  	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+</body>
+</html>
